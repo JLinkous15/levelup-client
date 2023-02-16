@@ -48,7 +48,7 @@ export const GameForm = () => {
                         let copy = {...currentGame, name: e.target.value}
                         setCurrentGame(copy)}}
                     />
-                    <label htmlFor="creator">Game Maker: </label>
+                    <label name = "creator" htmlFor="creator">Game Maker: </label>
                     <input 
                     type="text"
                     htmlFor="game_type"

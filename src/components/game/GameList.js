@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { getGames } from "../../managers/GameManager.js"
 import { useNavigate } from "react-router-dom"
+import './Game-Event.css'
 
 export const GameList = (props) => {
     const [ games, setGames ] = useState([])

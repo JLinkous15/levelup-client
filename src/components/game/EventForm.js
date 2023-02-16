@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from 'react-router-dom'
+import { createEvent } from "../../managers/EventManager.js"
 import { createGame, getGames, getGamers } from '../../managers/GameManager.js'
+import { DateTimeFieldConverter } from "./DateTime.js"
 
 
 export const EventForm = () => {
@@ -8,9 +10,9 @@ export const EventForm = () => {
     const [gamers, setGamers] = useState([])
     const [games, setGames] = useState([])
     const [currentEvent, setCurrentEvent] = useState({
-        host: 0,
         game: 0,
         date: "",
+        time: "",
         location: ""
     })
 
@@ -34,11 +36,11 @@ export const EventForm = () => {
     
 
     return (
-        <form className="gameForm">
-            <h2 className="gameForm__title">Register New Event</h2>
+        <form className="eventForm">
+            <h2 className="eventForm__title">Register New Event</h2>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="game">Choose a Game</label>
+                    <label htmlFor="event">Choose a Game</label>
                     <select 
                     name="game"
                     onChange={changeEventState}>
@@ -53,6 +55,8 @@ export const EventForm = () => {
                     </select>
                     <label htmlFor="date">Choose a Date:</label>
                     <input type="date" name="date" onChange={changeEventState}/>
+                    <label htmlFor="time">Choose a Date:</label>
+                    <input type="time" name="time" onChange={changeEventState}/>
                     <label htmlFor="location">Choose a Location:</label>
                     <input type="text" name="location" onChange={changeEventState}/>
                 </div>
@@ -64,10 +68,14 @@ export const EventForm = () => {
                 onClick={evt => {
                     // Prevent form from being submitted
                     evt.preventDefault()
-                    const game = {...currentEvent}
+                    const event = {
+                        game: parseInt(currentEvent.game),
+                        date: DateTimeFieldConverter(currentEvent.date, currentEvent.time),
+                        location: currentEvent.location
+                    }
                     // Send POST request to your API
-                    createGame(game)
-                        .then(() => navigate("/"))
+                    createEvent(event)
+                        .then(() => navigate("/events"))
                 }}
                 className="btn btn-primary">Create</button>
         </form>
