@@ -4,6 +4,12 @@ export const DateTimeConverter = (date) => {
     return [newDate, newTime]
 }
 
-export const DateTimeFieldConverter = (date, time) => {
-    return `${date}T${time}Z`
+export const DateTimeFieldConverter = (datetime) => {
+    return `${datetime}Z`
+}
+
+export const DefaultDate = (date) => {
+    console.log(date)
+    const newDate = date.substring(0, date.length-4)
+    return newDate
 }
