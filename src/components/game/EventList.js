@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { GetEvents } from "../../managers/EventManager.js"
+import { deleteEvent, GetEvents } from "../../managers/EventManager.js"
 import { useNavigate } from "react-router-dom"
 import { DateTimeConverter } from "./DateTime.js"
 
@@ -35,9 +35,25 @@ export const EventList = () => {
                         <div className="game__skillLevel">
                             Skill level is {event.game.skill_level}
                         </div>
+                        <label htmlFor="Attendees">Attendees: </label>
+                        {event.attendance.map(gamer=><div key={gamer.id}>{gamer.full_name}</div>)}
                         {event.is_host
-                        ?<button
-                        onClick={()=>navigate(`/events/${event.id}`)}>Edit</button>
+                        ?<>
+                            <button
+                            onClick={()=>navigate(`/events/${event.id}`)}>
+                                Edit
+                            </button>
+                            <button
+                            onClick={()=>{
+                                deleteEvent(event.id)
+                                .then(()=>{
+                                    GetEvents()
+                                    .then(setEvents)
+                                }
+                                )}}>
+                                Delete
+                            </button>
+                        </>
                         :""}
                     </section>
     })
