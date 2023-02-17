@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { getGames } from "../../managers/GameManager.js"
+import { deleteGame, getGames } from "../../managers/GameManager.js"
 import { useNavigate } from "react-router-dom"
 import './Game-Event.css'
 
@@ -33,6 +33,14 @@ export const GameList = (props) => {
                     onClick={()=>{
                         navigate(`/games/${game.id}`)
                     }}>Edit</button>
+                    <button
+                    onClick={()=>{
+                        deleteGame(game.id)
+                        .then(()=>{
+                            getGames()
+                            .then(setGames)
+                        })
+                    }}>Delete</button>
                     </div>
                 })
             }

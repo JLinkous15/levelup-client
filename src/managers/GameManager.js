@@ -73,3 +73,12 @@ export const editGame = (id, currentGame) => {
         body: JSON.stringify(game)
     })
 }
+
+export const deleteGame = (id) => {
+    return fetch(`http://localhost:8000/games/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization" : `Token ${localStorage.getItem("lu_token")}`
+        }
+    })
+}
