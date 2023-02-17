@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { deleteEvent, GetEvents } from "../../managers/EventManager.js"
+import { deleteEvent, GetEvents, joinEvent, leaveEvent } from "../../managers/EventManager.js"
 import { useNavigate } from "react-router-dom"
 import { DateTimeConverter } from "./DateTime.js"
 
@@ -54,7 +54,26 @@ export const EventList = () => {
                                 Delete
                             </button>
                         </>
-                        :""}
+                        :""
+                        }
+                        {event.joined
+                        ?<button
+                        onClick={(e)=>{
+                            e.preventDefault()
+                            leaveEvent(event.id)
+                            .then(()=>{GetEvents().then(setEvents)})
+                            
+                            }
+                        }>
+                            Leave
+                        </button>
+                        :<button
+                        onClick={(e)=>{
+                            e.preventDefault()
+                            joinEvent(event.id)
+                            .then(()=>{GetEvents().then(setEvents)})
+                            
+                        }}>Join</button>}
                     </section>
     })
             }
