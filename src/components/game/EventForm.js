@@ -35,7 +35,7 @@ export const EventForm = () => {
         copy[domEvent.target.name] = domEvent.target.value
         setCurrentEvent(copy)
     }
-console.log(DefaultDate(currentEvent.date))
+
     return (
         <form className="eventForm">
             <h2 className="eventForm__title">

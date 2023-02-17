@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from 'react-router-dom'
-import { createGame, getGameTypes } from '../../managers/GameManager.js'
+import { useNavigate, useParams } from 'react-router-dom'
+import { createGame, editGame, getGameTypes, getSingleGame } from '../../managers/GameManager.js'
 
 
 export const GameForm = () => {
     const navigate = useNavigate()
     const [gameTypes, setGameTypes] = useState([])
+    let {gameId} = useParams()
 
     /*
         Since the input fields are bound to the values of
@@ -25,6 +26,11 @@ export const GameForm = () => {
         // TODO: Get the game types, then set the state
         getGameTypes()
         .then(setGameTypes)
+
+        if(gameId){
+            getSingleGame(gameId)
+            .then(setCurrentGame)
+        }
     }, [])
 
     const changeGameState = (domEvent) => {
@@ -43,26 +49,27 @@ export const GameForm = () => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="title">Title: </label>
-                    <input type="text" name="name" required autoFocus className="form-control"
-                    onChange={(e)=>{
-                        let copy = {...currentGame, name: e.target.value}
-                        setCurrentGame(copy)}}
+                    <input 
+                    type="text" 
+                    name="name" 
+                    className="form-control"
+                    defaultValue={currentGame.name}
+                    onChange={changeGameState}
+                    required autoFocus
                     />
+
                     <label name = "creator" htmlFor="creator">Game Maker: </label>
                     <input 
                     type="text"
-                    htmlFor="game_type"
-                    onChange={(e)=>{
-                        let copy = {...currentGame, creator : e.target.value}
-                        setCurrentGame(copy)
-                        }
-                    }></input>
-                    <label >Game Type: </label>
-                    <select onChange={(e)=>{
-                        let copy = {...currentGame, game_type : parseInt(e.target.value)}
-                        setCurrentGame(copy)
-                        }
-                    }>
+                    name="creator"
+                    defaultValue={currentGame.creator}
+                    onChange={changeGameState}/>
+
+                    <label htmlFor="game_type">Game Type: </label>
+                    <select 
+                    name="game_type"
+                    value={currentGame.game_type}
+                    onChange={changeGameState}>
                         <option value={0}>Select a game type...</option>
                         {
                             gameTypes.map(type=>{
@@ -70,46 +77,66 @@ export const GameForm = () => {
                             })
                         }
                     </select>
+
                     <label htmlFor="description">Description: </label>
                     <textarea 
+                    name="description"
+                    defaultValue={currentGame.description}
                     placeholder={"Type a description here..."}
-                    onChange={(e)=>{
-                        let copy = {...currentGame, description: e.target.value}
-                        setCurrentGame(copy)
-                    }}>
+                    onChange={changeGameState}>
                     </textarea>
+
                     <label htmlFor="skillLevel">Skill Level: </label>
-                    <select onChange={(e)=>{
-                        let copy = {...currentGame, skill_level: e.target.value}
-                        setCurrentGame(copy)
-                    }}>
+                    <select 
+                    name="skill_level"
+                    value={currentGame.skill_level}
+                    onChange={changeGameState}>
                         <option value={0}>Choose a skill level...</option>
                         <option value="Easy">Easy</option>
                         <option value="Medium">Medium</option>
                         <option value="Hard">Hard</option>
                     </select>
-                    <label htmlFor="numOfPlayers">Number of Players</label>
+
+                    <label
+                    htmlFor="numOfPlayers">
+                        Number of Players
+                    </label>
                     <input 
+                    name="number_of_players"
                     type="number"
-                    onChange={(e)=>{
-                        let copy = {...currentGame, number_of_players : parseInt(e.target.value)}
-                        setCurrentGame(copy)
-                    }}/>
+                    value={currentGame.number_of_players}
+                    onChange={changeGameState}/>
                 </div>
             </fieldset>
 
             {/* TODO: create the rest of the input fields */}
 
-            <button type="submit"
-                onClick={evt => {
-                    // Prevent form from being submitted
-                    evt.preventDefault()
-                    const game = {...currentGame}
-                    // Send POST request to your API
-                    createGame(game)
-                        .then(() => navigate("/"))
-                }}
-                className="btn btn-primary">Create</button>
+            {gameId
+            ?<button 
+            type="submit"
+            onClick={evt => {
+                // Prevent form from being submitted
+                evt.preventDefault()
+                // Send POST request to your API
+                editGame(gameId, currentGame)
+                    .then(() => navigate("/"))
+            }}
+            className="btn btn-primary">
+                Edit    
+            </button>
+            :<button 
+            type="submit"
+            onClick={evt => {
+                // Prevent form from being submitted
+                evt.preventDefault()
+                // Send POST request to your API
+                createGame(currentGame)
+                    .then(() => navigate("/"))
+            }}
+            className="btn btn-primary">
+                Create
+            </button>
+            }
         </form>
     )
 }

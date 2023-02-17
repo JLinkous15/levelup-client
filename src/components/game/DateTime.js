@@ -9,7 +9,6 @@ export const DateTimeFieldConverter = (datetime) => {
 }
 
 export const DefaultDate = (date) => {
-    console.log(date)
     const newDate = date.substring(0, date.length-4)
     return newDate
 }
