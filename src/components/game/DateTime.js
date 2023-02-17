@@ -5,7 +5,7 @@ export const DateTimeConverter = (date) => {
 }
 
 export const DateTimeFieldConverter = (datetime) => {
-    return `${datetime}Z`
+    return `${datetime}:00Z`
 }
 
 export const DefaultDate = (date) => {

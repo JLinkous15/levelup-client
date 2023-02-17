@@ -1,3 +1,5 @@
+import { DateTimeFieldConverter } from "../components/game/DateTime"
+
 export const GetEvents = () => {
     return fetch('http://localhost:8000/events', 
         {
@@ -9,7 +11,12 @@ export const GetEvents = () => {
             .then(res=>res.json())
 }
 
-export const createEvent = (event) => {
+export const createEvent = (currentEvent) => {
+    const event = {
+        game: parseInt(currentEvent.game),
+        date: DateTimeFieldConverter(currentEvent.date),
+        location: currentEvent.location
+    }
     return fetch('http://localhost:8000/events',
     {
         method: "POST",
@@ -33,7 +40,12 @@ export const GetSingleEvent = (pk) => {
             .then(res=>res.json())
 }
 
-export const editEvent = (event, eventId) => {
+export const editEvent = (currentEvent, eventId) => {
+    const event = {
+        game: parseInt(currentEvent.game.id),
+        date: DateTimeFieldConverter(currentEvent.date),
+        location: currentEvent.location
+    }
     return fetch(`http://localhost:8000/events/${eventId}`,
     {
         method: "PUT",

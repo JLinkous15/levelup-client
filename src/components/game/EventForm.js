@@ -81,13 +81,8 @@ console.log(DefaultDate(currentEvent.date))
                 onClick={evt => {
                     // Prevent form from being submitted
                     evt.preventDefault()
-                    const event = {
-                        game: parseInt(currentEvent.game),
-                        date: DateTimeFieldConverter(currentEvent.date),
-                        location: currentEvent.location
-                    }
-                    // Send POST request to your API
-                    editEvent(event, eventId)
+                    // Send PUTT request to your API
+                    editEvent(currentEvent, eventId)
                         .then(() => navigate("/events"))
                 }}
                 className="btn btn-primary">
@@ -97,13 +92,8 @@ console.log(DefaultDate(currentEvent.date))
                 onClick={evt => {
                     // Prevent form from being submitted
                     evt.preventDefault()
-                    const event = {
-                        game: parseInt(currentEvent.game),
-                        date: DateTimeFieldConverter(currentEvent.date),
-                        location: currentEvent.location
-                    }
                     // Send POST request to your API
-                    createEvent(event)
+                    createEvent(currentEvent)
                         .then(() => navigate("/events"))
                 }}
                 className="btn btn-primary">
