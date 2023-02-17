@@ -10,7 +10,9 @@ export const EventList = () => {
     useEffect(()=>{
         GetEvents()
         .then(setEvents)
+
     }, [])
+
     return (<>
         <button className="btn btn-2 btn-sep icon-create"
             onClick={() => {
@@ -33,6 +35,10 @@ export const EventList = () => {
                         <div className="game__skillLevel">
                             Skill level is {event.game.skill_level}
                         </div>
+                        {event.is_host
+                        ?<button
+                        onClick={()=>navigate(`/events/${event.id}`)}>Edit</button>
+                        :""}
                     </section>
     })
             }

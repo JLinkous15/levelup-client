@@ -23,11 +23,17 @@ export const GameList = (props) => {
         <article className="games">
             {
                 games.map(game => {
-                    return <section key={`game--${game.id}`} className="game">
+                    return <div key={`game--${game.id}`}>
+                    <section  className="game">
                         <div className="game__title">{game.name} by {game.creator}</div>
                         <div className="game__players">{game.number_of_players} players needed</div>
                         <div className="game__skillLevel">Skill level is {game.skill_level}</div>
                     </section>
+                    <button
+                    onClick={()=>{
+                        navigate(`/games/${game.id}`)
+                    }}>Edit</button>
+                    </div>
                 })
             }
         </article>

@@ -17,7 +17,9 @@ export const ApplicationViews = () => {
                 <Route path="/" element={<GameList />} />
                 <Route path="/events" element={<EventList />} />
                 <Route path="/games/new" element={<GameForm />} />
+                <Route path="/games/:gameId" element={<GameForm />} />
                 <Route path="/events/new" element={<EventForm />} />
+                <Route path="/events/:eventId" element={<EventForm />} />
                 {/* Add Routes here */}
             </Route>
         </Routes>
